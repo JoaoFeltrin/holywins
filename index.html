@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holywins 2026 | Paróquia São Jorge</title>
+<meta name="description" content="Holywins 2026 — A santidade também é uma festa. 24 de outubro, na Paróquia São Jorge.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Holywins 2026 | Paróquia São Jorge">
+<meta property="og:description" content="A santidade também é uma festa. 24 de outubro de 2026, na Paróquia São Jorge.">
+<meta property="og:type" content="website">
+<!-- TROCAR pela URL final do site publicado no GitHub Pages -->
+<meta property="og:url" content="https://seuusuario.github.io/holywins/">
+<!-- TROCAR por uma imagem de divulgação (1200x630px) quando disponível -->
+<meta property="og:image" content="assets/og-image.jpg">
+
+<!-- Favicon: substitua assets/favicon.png por um ícone oficial do Holywins -->
+<link rel="icon" type="image/png" href="assets/favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="navbar" id="navbar">
+  <div class="navbar__inner container">
+    <a href="#topo" class="navbar__brand">HOLY<span>WINS</span></a>
+
+    <nav class="navbar__nav" id="navMenu">
+      <a href="#sobre" class="navbar__link">O Evento</a>
+      <a href="#porque" class="navbar__link">Por que ir</a>
+      <a href="#santos" class="navbar__link">Santos</a>
+      <a href="#como-vai-funcionar" class="navbar__link">Como vai ser</a>
+      <a href="#inscricao" class="navbar__link navbar__link--cta">Quero Participar</a>
+    </nav>
+
+    <button class="navbar__toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="topo">
+    <div class="hero__bg" aria-hidden="true">
+      <!-- Carrossel de fundo: troque/adicione imagens em assets/hero-carousel/ e os slides abaixo -->
+      <div class="hero__carousel" id="heroCarousel">
+        <div class="hero__carousel-slide is-active" style="background-image:url('assets/hero-carousel/slide1.jpg')"></div>
+        <div class="hero__carousel-slide" style="background-image:url('assets/hero-carousel/slide2.jpg')"></div>
+        <div class="hero__carousel-slide" style="background-image:url('assets/hero-carousel/slide3.jpg')"></div>
+        <div class="hero__carousel-slide" style="background-image:url('assets/hero-carousel/slide4.jpg')"></div>
+        <div class="hero__carousel-slide" style="background-image:url('assets/hero-carousel/slide5.jpg')"></div>
+      </div>
+      <div class="hero__overlay"></div>
+      <div class="hero__rays"></div>
+      <div class="hero__clouds">
+        <span class="hero__cloud hero__cloud--1"></span>
+        <span class="hero__cloud hero__cloud--2"></span>
+        <span class="hero__cloud hero__cloud--3"></span>
+      </div>
+      <div class="hero__glow hero__glow--1"></div>
+      <div class="hero__glow hero__glow--2"></div>
+      <div class="hero__stars"></div>
+    </div>
+
+    <div class="container hero__content">
+      <p class="hero__eyebrow">✦ Paróquia São Jorge apresenta ✦</p>
+      <h1 class="hero__title">
+        HOLY<span class="hero__title-accent">WINS</span> <span class="hero__year">2026</span>
+      </h1>
+      <p class="hero__tagline">A santidade também é uma festa.</p>
+
+      <div class="hero__info">
+        <span>📅 24 DE OUTUBRO DE 2026</span>
+        <span class="hero__dot">•</span>
+        <span>📍 PARÓQUIA SÃO JORGE</span>
+      </div>
+
+      <!-- Contador regressivo -->
+      <div class="countdown" id="countdown" aria-live="polite">
+        <p class="countdown__label">FALTAM</p>
+        <div class="countdown__grid">
+          <div class="countdown__item">
+            <span class="countdown__number" id="cd-dias">00</span>
+            <span class="countdown__unit">Dias</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" id="cd-horas">00</span>
+            <span class="countdown__unit">Horas</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" id="cd-minutos">00</span>
+            <span class="countdown__unit">Minutos</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" id="cd-segundos">00</span>
+            <span class="countdown__unit">Segundos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__ctas">
+        <a href="#" class="btn btn--primary" id="btnInscricaoHero" target="_blank" rel="noopener">QUERO PARTICIPAR</a>
+        <a href="#sobre" class="btn btn--ghost">O QUE É HOLYWINS?</a>
+      </div>
+
+      <!-- Contador ao vivo de confirmações (respostas do Google Forms) -->
+      <div class="hero__contador contador-presenca fade-in" id="heroContador" aria-live="polite" hidden>
+        <span class="hero__contador-live"><span class="hero__contador-dot"></span>AO VIVO</span>
+        <span class="hero__contador-numero contador-presenca__numero">0</span>
+        <span class="hero__contador-label">pessoas já confirmaram presença</span>
+      </div>
+    </div>
+
+    <a href="#sobre" class="hero__scroll" aria-label="Rolar para próxima seção">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ===================== SOBRE / O QUE É (manifesto) ===================== -->
+  <section class="section section--sobre" id="sobre">
+    <div class="sobre__glow" aria-hidden="true"></div>
+    <div class="container">
+      <p class="section__eyebrow fade-in">O que é</p>
+      <h2 class="section__title fade-in">Holywins</h2>
+      <p class="sobre__slogan fade-in">A santidade vence.</p>
+
+      <div class="sobre__grid">
+        <p class="sobre__texto fade-in">
+          Holywins significa <strong>"a santidade vence"</strong>. Mais do que uma festa à fantasia,
+          é uma celebração da vida, da fé e de pessoas como a gente — que encontraram em Deus um
+          jeito de viver e ser feliz de verdade.
+        </p>
+
+        <div class="sobre__manifesto fade-in">
+          <p>SANTIDADE NÃO É DISTANTE.<br><span>É POSSÍVEL.</span></p>
+        </div>
+
+        <p class="sobre__texto fade-in">
+          Aqui, ninguém se fantasia só para aparecer.<br>
+          Cada fantasia carrega uma história.<br>
+          Cada santo carrega uma inspiração.<br>
+          Porque dá para ser jovem, ser feliz e ser santo ao mesmo tempo.
+        </p>
+
+        <div class="sobre__destaque fade-in">
+          <span class="sobre__destaque-icone">✨</span>
+          <p>CADA FANTASIA CONTA UMA HISTÓRIA.<br><strong>QUAL SERÁ A SUA?</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUE PARTICIPAR ===================== -->
+  <!-- Cada card usa a variável --card-img (definida inline) para o fundo.
+       Para trocar uma foto, basta editar o caminho dentro de url('...') abaixo. -->
+  <section class="section section--porque" id="porque">
+    <div class="container">
+      <p class="section__eyebrow fade-in">Motivos</p>
+      <h2 class="section__title fade-in">Por que participar?</h2>
+      <p class="porque__subtitulo fade-in">Um evento para toda a comunidade.</p>
+
+      <div class="cards-grid cards-grid--porque">
+
+        <article class="card card--foto fade-in" style="--card-img:url('assets/cards/card1-vista-seu-santo.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 0-7 2-7 5 0 2 1 3 1 5 0 3 2 5 6 5s6-2 6-5c0-2 1-3 1-5 0-3-3-5-7-5z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 14c1 1 5 1 6 0"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Vista seu santo</h3>
+            <p>Escolha um santo, conheça sua história e venha celebrar a vida dele através da sua fantasia.</p>
+          </div>
+        </article>
+
+        <article class="card card--foto fade-in" style="--card-img:url('assets/cards/card2-musica-diversao.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Música e diversão</h3>
+            <p>DJ, pista de dança e uma noite preparada para celebrar, sorrir, dançar e viver a alegria em comunidade.</p>
+          </div>
+        </article>
+
+        <article class="card card--foto fade-in" style="--card-img:url('assets/cards/card3-fe-proposito.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 8h10"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Fé e propósito</h3>
+            <p>Uma festa com raiz: celebrar a santidade, conhecer histórias que inspiram e lembrar que a alegria também pode nascer da fé.</p>
+          </div>
+        </article>
+
+        <article class="card card--foto fade-in" style="--card-img:url('assets/cards/card4-juventude-reunida.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M6.6 7.4 10.6 16.4M17.4 7.4 13.4 16.4M7 6h10"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Juventude reunida</h3>
+            <div class="card__grupos">
+              <span class="card__grupos-principal">CLJ · EJU · ONDA · GIRASSOL</span>
+              <span class="card__grupos-conector">e também</span>
+              <span class="card__grupos-secundario">ECC · MCJ</span>
+            </div>
+            <p>Uma noite para reunir diferentes grupos, movimentos e comunidades em um só lugar.</p>
+            <p class="card__nota">Juventude, casais e famílias: todos fazem parte dessa festa.</p>
+          </div>
+        </article>
+
+        <article class="card card--foto fade-in" style="--card-img:url('assets/cards/card5-comunidade.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.5"/><circle cx="16" cy="8" r="2.5"/><path d="M3 19c0-3 2.5-5 5-5s5 2 5 5M11 19c0-3 2.5-5 5-5s5 2 5 5"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Comunidade</h3>
+            <p>Uma noite para encontrar pessoas, criar novas amizades e celebrar aquilo que nos une: a fé.</p>
+          </div>
+        </article>
+
+        <article class="card card--foto card--familia fade-in" style="--card-img:url('assets/cards/card6-familia.jpg')">
+          <div class="card__bg"></div>
+          <div class="card__overlay"></div>
+          <span class="card__tag">Para toda a família</span>
+          <span class="card__icone-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="6" r="2.2"/><circle cx="17" cy="6" r="2.2"/><circle cx="12" cy="12" r="1.8"/><path d="M3 19c0-3 1.8-5 4-5s4 2 4 5M13 19c0-2.6 1.5-4.2 3-4.2s3 1.6 3 4.2M9.5 19c.3-2 1.4-3.3 2.5-3.3s2.2 1.3 2.5 3.3"/></svg>
+          </span>
+          <div class="card__conteudo">
+            <h3>Família</h3>
+            <p>Holywins é para todos. Pais, filhos, irmãos, avós, catequizandos, jovens e toda a comunidade são convidados.</p>
+            <p class="card__nota card__nota--forte">Traga sua família para viver essa noite com a gente.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SANTO DA SEMANA ===================== -->
+  <!-- Para trocar o Santo da Semana no futuro, edite apenas o conteúdo desta section -->
+  <section class="section section--santo-semana" id="santo-semana">
+    <div class="container santo-semana__container">
+      <p class="section__eyebrow fade-in">Destaque</p>
+      <h2 class="section__title fade-in">Santo da Semana</h2>
+
+      <div class="santo-semana__card fade-in">
+        <div class="santo-semana__avatar" aria-hidden="true">
+          <!-- Substituir por imagem real: assets/santos/carlo-acutis.jpg -->
+          <span>✟</span>
+        </div>
+
+        <div class="santo-semana__conteudo">
+          <h3>São Carlo Acutis</h3>
+          <p class="santo-semana__bio">
+            Jovem italiano apaixonado por tecnologia e informática, Carlo usou seus talentos para
+            evangelizar pela internet, catalogando milagres eucarísticos do mundo todo. Morreu aos
+            15 anos, em 2006, e é conhecido como o "influencer de Deus".
+          </p>
+          <p class="santo-semana__curiosidade">
+            <strong>Curiosidade:</strong> Carlo era programador autodidata e criou sites antes mesmo
+            de ter 15 anos — hoje é considerado o padroeiro da internet.
+          </p>
+          <blockquote class="santo-semana__frase">
+            "Não eu, mas Deus." — São Carlo Acutis
+          </blockquote>
+
+          <button class="btn btn--outline" id="btnHistoriaSanto">CONHEÇA SUA HISTÓRIA</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ESCOLHA SEU SANTO ===================== -->
+  <section class="section section--santos" id="santos">
+    <div class="container">
+      <p class="section__eyebrow fade-in">Inspiração</p>
+      <h2 class="section__title fade-in">Escolha seu santo</h2>
+      <p class="section__subtitle fade-in">Toque em um card para conhecer a história e se inspirar na fantasia.</p>
+
+      <div class="santos-grid" id="santosGrid">
+        <!-- Os cards são gerados também via JS a partir do array SANTOS, mas já ficam no HTML para funcionar sem JS -->
+        <button class="santo-card fade-in" data-santo="sao-jorge">
+          <span class="santo-card__icone">🐉</span>
+          <span class="santo-card__nome">São Jorge</span>
+        </button>
+
+        <button class="santo-card fade-in" data-santo="sao-jose">
+          <span class="santo-card__icone">🔨</span>
+          <span class="santo-card__nome">São José</span>
+        </button>
+
+        <button class="santo-card fade-in" data-santo="carlo-acutis">
+          <span class="santo-card__icone">💻</span>
+          <span class="santo-card__nome">São Carlo Acutis</span>
+        </button>
+
+        <button class="santo-card fade-in" data-santo="santa-teresinha">
+          <span class="santo-card__icone">🌹</span>
+          <span class="santo-card__nome">Santa Teresinha</span>
+        </button>
+
+        <button class="santo-card fade-in" data-santo="sao-francisco">
+          <span class="santo-card__icone">🕊️</span>
+          <span class="santo-card__nome">São Francisco de Assis</span>
+        </button>
+
+        <button class="santo-card fade-in" data-santo="santa-clara">
+          <span class="santo-card__icone">✨</span>
+          <span class="santo-card__nome">Santa Clara</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMO VAI FUNCIONAR ===================== -->
+  <section class="section section--como" id="como-vai-funcionar">
+    <div class="container">
+      <p class="section__eyebrow fade-in">O evento</p>
+      <h2 class="section__title fade-in">Como vai funcionar</h2>
+
+      <ul class="como-lista">
+        <li class="como-item fade-in"><span>📅</span> 24 de outubro de 2026, 19h</li>
+        <li class="como-item fade-in"><span>📍</span> Paróquia São Jorge — Rua Herval, 93, Bairro Campina, São Leopoldo</li>
+        <li class="como-item fade-in"><span>🎭</span> Festa à fantasia dos santos</li>
+        <li class="como-item fade-in"><span>🎶</span> Música e DJ</li>
+        <li class="como-item fade-in"><span>👥</span> Uma noite para reunir a juventude</li>
+      </ul>
+
+      <!-- Espaço reservado para informações futuras: horário, valor, ingressos, patrocinadores -->
+      <div class="como-extra fade-in">
+        <p>⏰ Horário: 19h &nbsp;|&nbsp; 🎟️ Ingresso: <em>em breve</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section class="section section--cta-final" id="inscricao">
+    <div class="cta-final__bg" aria-hidden="true"></div>
+    <div class="container cta-final__content">
+      <h2 class="cta-final__title fade-in">VOCÊ VEM?</h2>
+      <p class="cta-final__texto fade-in">
+        Escolha seu santo. Prepare sua fantasia. Chame seus amigos.<br>
+        A santidade também é uma festa.
+      </p>
+
+      <!-- Dashboard ao vivo de confirmações (mesma fonte de dados do contador do hero) -->
+      <div class="contador-dashboard contador-presenca fade-in" aria-live="polite" hidden>
+        <span class="hero__contador-live"><span class="hero__contador-dot"></span>AO VIVO</span>
+        <span class="contador-dashboard-numero contador-presenca__numero">0</span>
+        <span class="contador-dashboard-label">pessoas já confirmaram presença</span>
+      </div>
+
+      <a href="#" class="btn btn--primary btn--grande fade-in" id="btnInscricaoFinal" target="_blank" rel="noopener">EU VOU!</a>
+    </div>
+  </section>
+
+  <!-- ===================== COMPARTILHE ===================== -->
+  <section class="section section--compartilhe">
+    <div class="container compartilhe__content">
+      <h2 class="section__title fade-in">Chame seus amigos.</h2>
+      <p class="section__subtitle fade-in">Espalhe o convite. Quanto mais gente, melhor a festa.</p>
+
+      <div class="compartilhe__botoes fade-in">
+        <button class="btn btn--whatsapp" id="btnCompartilharWhatsapp">
+          <span>📲</span> Compartilhar no WhatsApp
+        </button>
+        <a href="#" class="btn btn--instagram" id="btnInstagram" target="_blank" rel="noopener">
+          <span>📷</span> Seguir no Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== RODAPÉ ===================== -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__logos">
+      <img class="footer__logo-img" src="assets/logo-paroquia.png" alt="Paróquia São Jorge">
+    </div>
+
+    <div class="footer__texto">
+      <p class="footer__titulo">HOLYWINS 2026</p>
+      <p>Paróquia São Jorge — São Leopoldo/RS</p>
+    </div>
+  </div>
+  <p class="footer__copy">© 2026 Paróquia São Jorge. Feito com fé e alegria.</p>
+</footer>
+
+<!-- ===================== MODAL SANTOS ===================== -->
+<div class="modal" id="modalSanto" aria-hidden="true">
+  <div class="modal__overlay" id="modalOverlay"></div>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalNome">
+    <button class="modal__fechar" id="modalFechar" aria-label="Fechar">×</button>
+    <span class="modal__icone" id="modalIcone">✟</span>
+    <h3 id="modalNome">Nome do Santo</h3>
+    <p id="modalBio">Biografia do santo.</p>
+    <p class="modal__frase" id="modalFrase">"Frase do santo."</p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
