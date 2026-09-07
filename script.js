@@ -22,8 +22,9 @@ const INSCRICAO_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeBp5Llt2RcZBQh6
 // @ oficial da paróquia no Instagram
 const INSTAGRAM_URL = "https://www.instagram.com/paroquia.saojorge?igsi=djhpMGd0a3Jkandk";
 
-// TROQUE pelo link do grupo/contato oficial de WhatsApp
-const WHATSAPP_URL = "https://wa.me/55SEUNUMEROAQUI";
+// Link direto de WhatsApp usado no botão "Ingresso" da seção "Como vai funcionar".
+// Formato: https://wa.me/55DDDNUMERO (55 = Brasil, sem espaços, traços ou o sinal "+").
+const WHATSAPP_URL = "https://wa.me/5551991268885";
 
 // Tempo (em ms) que cada imagem do carrossel do hero fica em tela
 const CARROSSEL_INTERVALO_MS = 7000;
@@ -67,8 +68,8 @@ function aplicarLinksConfiguraveis() {
     if (el) el.setAttribute("href", INSTAGRAM_URL);
   });
 
-  const footerWhatsapp = document.getElementById("footerWhatsapp");
-  if (footerWhatsapp) footerWhatsapp.setAttribute("href", WHATSAPP_URL);
+  const btnIngressoWhatsapp = document.getElementById("btnIngressoWhatsapp");
+  if (btnIngressoWhatsapp) btnIngressoWhatsapp.setAttribute("href", WHATSAPP_URL);
 }
 
 /* ===================== CONTADOR REGRESSIVO ===================== */
@@ -220,54 +221,67 @@ function iniciarFadeIn() {
   elementos.forEach((el) => observer.observe(el));
 }
 
-/* ===================== SANTOS (dados + modal) ===================== */
-// Para adicionar/editar um santo, basta alterar este objeto.
+/* ===================== SANTOS (dados + modal + carrossel) =====================
+   Para adicionar/trocar um santo:
+   1. Coloque a foto de rosto em assets/santos/{slug}.jpg
+   2. Duplique um <article class="santo-card-novo"> em index.html com o novo
+      data-santo (e data-santo-modal no botão)
+   3. Adicione a entrada correspondente aqui embaixo, com a mesma chave (slug).
+   IMPORTANTE: "fatoExtra" (mostrado só no modal, ao clicar em "Conheça sua
+   história") deve trazer fatos DIFERENTES dos já escritos no card ("bioCard"),
+   nunca repetir a mesma informação. */
 const SANTOS = {
-  "sao-jorge": {
-    icone: "🐉",
-    nome: "São Jorge",
-    bio: "Soldado romano do século III, conhecido por sua coragem e fé inabalável mesmo diante da perseguição. Tornou-se símbolo de coragem contra o mal, representado vencendo o dragão.",
-    frase: "Não há maior vitória do que vencer o mal com a fé.",
-  },
-  "sao-jose": {
-    icone: "🔨",
-    nome: "São José",
-    bio: "Pai adotivo de Jesus e esposo de Maria, trabalhador humilde e homem justo. Modelo de silêncio, obediência e cuidado com a família.",
-    frase: "A santidade se constrói no silêncio do dia a dia.",
-  },
   "carlo-acutis": {
-    icone: "💻",
     nome: "São Carlo Acutis",
-    bio: "Jovem italiano apaixonado por tecnologia, usou seus talentos para evangelizar pela internet. Morreu aos 15 anos, em 2006, e é conhecido como o \"influencer de Deus\".",
-    frase: "Não eu, mas Deus.",
+    foto: "assets/santos/carlo-acutis.jpg",
+    fatoExtra: "Carlo tinha um cachorro chamado Skywalker e adorava video game, mas se limitava a uma hora por semana. Também ajudava moradores de rua de Milão com o próprio dinheiro. Seu corpo, exposto em Assis, é visto com o rosto e as mãos preservados, vestido de tênis e moletom, como ele gostava.",
+    frase: "Não eu, mas Deus. — São Carlo Acutis",
   },
-  "santa-teresinha": {
-    icone: "🌹",
-    nome: "Santa Teresinha",
-    bio: "Carmelita francesa que viveu sua fé através de pequenos gestos de amor no cotidiano — o chamado \"Caminho da Infância Espiritual\".",
-    frase: "Quero passar meu céu fazendo o bem na terra.",
+  "gema-galgani": {
+    nome: "Santa Gema Galgani",
+    foto: "assets/santos/gema-galgani.jpg",
+    fatoExtra: "Gema recebia os estigmas (as chagas de Jesus) toda quinta-feira à noite, e eles desapareciam no sábado de manhã, coincidindo com o horário da Paixão de Cristo. Ela dizia conversar com seu anjo da guarda como se fosse um amigo de todo dia.",
+    frase: "Jesus, eu quero te amar, e não posso te amar o quanto quero. Toma tu mesmo meu coração. — Santa Gema Galgani",
   },
-  "sao-francisco": {
-    icone: "🕊️",
-    nome: "São Francisco de Assis",
-    bio: "Abandonou uma vida de riquezas para viver em pobreza e simplicidade, dedicando-se ao amor por Deus, pelos pobres e por toda a criação.",
-    frase: "É dando que se recebe.",
+  "domingo-savio": {
+    nome: "São Domingos Sávio",
+    foto: "assets/santos/domingo-savio.jpg",
+    fatoExtra: "Domingos fundou entre os colegas a \"Companhia da Imaculada Conceição\", um grupo de amigos que se ajudavam a viver a fé no dia a dia — bem parecido com os grupos de jovens que existem nas paróquias hoje. Numa conversa famosa, Dom Bosco disse que ele parecia um bom tecido pra fazer uma túnica pro Senhor; Domingos respondeu na hora: \"Eu entro com o tecido, você faz o trabalho de alfaiate.\"",
+    frase: "Antes morrer do que pecar. — São Domingos Sávio",
   },
-  "santa-clara": {
-    icone: "✨",
-    nome: "Santa Clara",
-    bio: "Seguidora de São Francisco de Assis, fundou a ordem das Clarissas e viveu com radicalidade a pobreza e a oração, sendo hoje padroeira das comunicações.",
-    frase: "Olha e considera, contempla e deseja imitar.",
+  "teresinha": {
+    nome: "Santa Teresinha do Menino Jesus",
+    foto: "assets/santos/teresinha.jpg",
+    fatoExtra: "Teresinha escreveu sua autobiografia, \"História de uma Alma\", por obediência às irmãs superioras — ela não pretendia publicar nada. O livro se tornou um dos textos espirituais mais lidos do mundo. Ela também é copadroeira das missões, mesmo nunca tendo saído do convento em vida.",
+    frase: "Quero passar meu céu fazendo o bem na terra. — Santa Teresinha do Menino Jesus",
+  },
+  "padre-pio": {
+    nome: "São Padre Pio",
+    foto: "assets/santos/padre-pio.jpg",
+    fatoExtra: "Diziam que Padre Pio tinha o dom da bilocação — relatos de pessoas que juravam tê-lo visto em dois lugares ao mesmo tempo. Ele também fundou o hospital \"Casa Alívio do Sofrimento\", que até hoje atende milhares de pacientes na Itália.",
+    frase: "Reze, espere e não se preocupe. — São Padre Pio",
+  },
+  "jose-sanchez": {
+    nome: "São José Sánchez del Río",
+    foto: "assets/santos/jose-sanchez.jpg",
+    fatoExtra: "Antes de ser executado, José pediu para escrever uma última carta para sua mãe, agradecendo por ela ter aceitado que ele fosse para a guerra defender a fé. No caminho até sua morte, ele ia gritando \"Viva Cristo Rei e a Virgem de Guadalupe!\" — e foi assim que morreu, aos 14 anos, em 1928.",
+    frase: "Nos vemos no céu. Viva Cristo Rei! — São José Sánchez del Río",
   },
 };
 
 function iniciarSantos() {
+  iniciarModalSantos();
+  iniciarCarrosselSantos();
+}
+
+/* ---- Modal (fatos extras, sem repetir o que já está no card) ---- */
+function iniciarModalSantos() {
   const modal = document.getElementById("modalSanto");
   const modalOverlay = document.getElementById("modalOverlay");
   const modalFechar = document.getElementById("modalFechar");
-  const modalIcone = document.getElementById("modalIcone");
+  const modalFoto = document.getElementById("modalFoto");
   const modalNome = document.getElementById("modalNome");
-  const modalBio = document.getElementById("modalBio");
+  const modalExtra = document.getElementById("modalExtra");
   const modalFrase = document.getElementById("modalFrase");
 
   if (!modal) return;
@@ -276,9 +290,9 @@ function iniciarSantos() {
     const santo = SANTOS[chaveSanto];
     if (!santo) return;
 
-    modalIcone.textContent = santo.icone;
+    modalFoto.style.backgroundImage = `url('${santo.foto}')`;
     modalNome.textContent = santo.nome;
-    modalBio.textContent = santo.bio;
+    modalExtra.textContent = santo.fatoExtra;
     modalFrase.textContent = `"${santo.frase}"`;
 
     modal.classList.add("is-active");
@@ -292,14 +306,9 @@ function iniciarSantos() {
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll(".santo-card").forEach((card) => {
-    card.addEventListener("click", () => abrirModal(card.dataset.santo));
+  document.querySelectorAll("[data-santo-modal]").forEach((btn) => {
+    btn.addEventListener("click", () => abrirModal(btn.dataset.santoModal));
   });
-
-  const btnHistoriaSanto = document.getElementById("btnHistoriaSanto");
-  if (btnHistoriaSanto) {
-    btnHistoriaSanto.addEventListener("click", () => abrirModal("carlo-acutis"));
-  }
 
   if (modalOverlay) modalOverlay.addEventListener("click", fecharModal);
   if (modalFechar) modalFechar.addEventListener("click", fecharModal);
@@ -307,6 +316,71 @@ function iniciarSantos() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal.classList.contains("is-active")) fecharModal();
   });
+}
+
+/* ---- Carrossel (múltiplos cards visíveis, autoplay + setas + bolinhas) ---- */
+function iniciarCarrosselSantos() {
+  const track = document.getElementById("santosTrack");
+  const viewport = track ? track.parentElement : null;
+  const btnPrev = document.getElementById("santosPrev");
+  const btnNext = document.getElementById("santosNext");
+  const dotsContainer = document.getElementById("santosDots");
+  if (!track || !viewport) return;
+
+  const cards = Array.from(track.children);
+  if (!cards.length) return;
+
+  // Quantos cards ficam visíveis por vez, de acordo com o breakpoint do CSS
+  // (1 no mobile, 2 no tablet ≥640px, 3 no desktop ≥960px)
+  function cardsPorVez() {
+    if (window.innerWidth >= 960) return 3;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
+  }
+
+  let indice = 0;
+  let autoplay;
+
+  function totalPaginas() {
+    return Math.max(1, cards.length - cardsPorVez() + 1);
+  }
+
+  function irPara(novoIndice) {
+    const max = totalPaginas() - 1;
+    indice = ((novoIndice % (max + 1)) + (max + 1)) % (max + 1);
+    const larguraCard = cards[0].getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(track).gap || "0");
+    track.style.transform = `translateX(-${indice * (larguraCard + gap)}px)`;
+    atualizarDots();
+  }
+
+  function atualizarDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = "";
+    for (let i = 0; i < totalPaginas(); i++) {
+      const dot = document.createElement("button");
+      dot.className = "santos-carousel__dot" + (i === indice ? " is-active" : "");
+      dot.setAttribute("aria-label", `Ir para o card ${i + 1}`);
+      dot.addEventListener("click", () => {
+        irPara(i);
+        reiniciarAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function reiniciarAutoplay() {
+    clearInterval(autoplay);
+    autoplay = setInterval(() => irPara(indice + 1), 6000);
+  }
+
+  if (btnPrev) btnPrev.addEventListener("click", () => { irPara(indice - 1); reiniciarAutoplay(); });
+  if (btnNext) btnNext.addEventListener("click", () => { irPara(indice + 1); reiniciarAutoplay(); });
+
+  window.addEventListener("resize", () => irPara(indice));
+
+  irPara(0);
+  reiniciarAutoplay();
 }
 
 /* ===================== COMPARTILHAMENTO ===================== */
