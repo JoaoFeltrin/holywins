@@ -948,11 +948,62 @@ a:focus-visible, button:focus-visible {
   text-shadow: 0 0 20px rgba(47, 111, 237, 0.3);
 }
 
-.como-extra__ingresso {
+/* Bloco de preços do ingresso, logo abaixo do horário */
+.como-ingresso {
+  margin-top: 1.1rem;
+  padding: 1.3rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(156, 200, 255, 0.14);
+  border-radius: 14px;
+}
+
+.como-ingresso__titulo {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--cor-branco);
+  margin-bottom: 0.8rem;
+}
+
+.como-ingresso__precos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.como-ingresso__precos li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.92rem;
+  color: var(--cor-texto-suave);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(156, 200, 255, 0.15);
+}
+
+.como-ingresso__precos li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.como-ingresso__precos strong {
+  font-family: var(--fonte-titulo);
+  font-size: 1.1rem;
+  color: var(--cor-branco);
+}
+
+.como-ingresso__nota {
+  font-size: 0.8rem;
+  color: var(--cor-azul-suave);
+  opacity: 0.85;
+  margin-bottom: 1.1rem;
+}
+
+.como-ingresso__btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  padding: 0.55rem 1.1rem;
+  width: 100%;
+  padding: 0.7rem 1.1rem;
   border-radius: 50px;
   background: rgba(37, 211, 102, 0.12);
   border: 1px solid rgba(37, 211, 102, 0.5);
@@ -962,7 +1013,7 @@ a:focus-visible, button:focus-visible {
   transition: background var(--transicao), transform var(--transicao);
 }
 
-.como-extra__ingresso:hover {
+.como-ingresso__btn:hover {
   background: #25d366;
   color: #06210f;
   transform: translateY(-2px);
