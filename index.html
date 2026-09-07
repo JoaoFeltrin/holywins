@@ -28,6 +28,7 @@
 
 <!-- ===================== NAVBAR ===================== -->
 <header class="navbar" id="navbar">
+  <div class="navbar__bg" aria-hidden="true"></div>
   <div class="navbar__inner container">
     <a href="#topo" class="navbar__brand">HOLY<span>WINS</span></a>
 
@@ -108,7 +109,6 @@
 
       <div class="hero__ctas">
         <a href="#" class="btn btn--primary" id="btnInscricaoHero" target="_blank" rel="noopener">QUERO PARTICIPAR</a>
-        <a href="#sobre" class="btn btn--ghost">O QUE É HOLYWINS?</a>
       </div>
 
       <!-- Contador ao vivo de confirmações (respostas do Google Forms) -->
@@ -253,80 +253,91 @@
     </div>
   </section>
 
-  <!-- ===================== SANTO DA SEMANA ===================== -->
-  <!-- Para trocar o Santo da Semana no futuro, edite apenas o conteúdo desta section -->
-  <section class="section section--santo-semana" id="santo-semana">
-    <div class="container santo-semana__container">
-      <p class="section__eyebrow fade-in">Destaque</p>
-      <h2 class="section__title fade-in">Santo da Semana</h2>
-
-      <div class="santo-semana__card fade-in">
-        <div class="santo-semana__avatar" aria-hidden="true">
-          <!-- Substituir por imagem real: assets/santos/carlo-acutis.jpg -->
-          <span>✟</span>
-        </div>
-
-        <div class="santo-semana__conteudo">
-          <h3>São Carlo Acutis</h3>
-          <p class="santo-semana__bio">
-            Jovem italiano apaixonado por tecnologia e informática, Carlo usou seus talentos para
-            evangelizar pela internet, catalogando milagres eucarísticos do mundo todo. Morreu aos
-            15 anos, em 2006, e é conhecido como o "influencer de Deus".
-          </p>
-          <p class="santo-semana__curiosidade">
-            <strong>Curiosidade:</strong> Carlo era programador autodidata e criou sites antes mesmo
-            de ter 15 anos — hoje é considerado o padroeiro da internet.
-          </p>
-          <blockquote class="santo-semana__frase">
-            "Não eu, mas Deus." — São Carlo Acutis
-          </blockquote>
-
-          <button class="btn btn--outline" id="btnHistoriaSanto">CONHEÇA SUA HISTÓRIA</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== ESCOLHA SEU SANTO ===================== -->
+  <!-- ===================== ESCOLHA SEU SANTO (carrossel) ===================== -->
+  <!-- Cada card usa data-santo pra casar com o objeto SANTOS no script.js.
+       Pra adicionar/trocar um santo: crie a foto em assets/santos/, duplique um
+       <article> abaixo com o novo data-santo, e adicione a entrada correspondente
+       no objeto SANTOS do script.js (bioCard, fantasia, fatoExtra, frase). -->
   <section class="section section--santos" id="santos">
     <div class="container">
       <p class="section__eyebrow fade-in">Inspiração</p>
       <h2 class="section__title fade-in">Escolha seu santo</h2>
-      <p class="section__subtitle fade-in">Toque em um card para conhecer a história e se inspirar na fantasia.</p>
-
-      <div class="santos-grid" id="santosGrid">
-        <!-- Os cards são gerados também via JS a partir do array SANTOS, mas já ficam no HTML para funcionar sem JS -->
-        <button class="santo-card fade-in" data-santo="sao-jorge">
-          <span class="santo-card__icone">🐉</span>
-          <span class="santo-card__nome">São Jorge</span>
-        </button>
-
-        <button class="santo-card fade-in" data-santo="sao-jose">
-          <span class="santo-card__icone">🔨</span>
-          <span class="santo-card__nome">São José</span>
-        </button>
-
-        <button class="santo-card fade-in" data-santo="carlo-acutis">
-          <span class="santo-card__icone">💻</span>
-          <span class="santo-card__nome">São Carlo Acutis</span>
-        </button>
-
-        <button class="santo-card fade-in" data-santo="santa-teresinha">
-          <span class="santo-card__icone">🌹</span>
-          <span class="santo-card__nome">Santa Teresinha</span>
-        </button>
-
-        <button class="santo-card fade-in" data-santo="sao-francisco">
-          <span class="santo-card__icone">🕊️</span>
-          <span class="santo-card__nome">São Francisco de Assis</span>
-        </button>
-
-        <button class="santo-card fade-in" data-santo="santa-clara">
-          <span class="santo-card__icone">✨</span>
-          <span class="santo-card__nome">Santa Clara</span>
-        </button>
-      </div>
+      <p class="section__subtitle fade-in">Conheça quem vai inspirar as fantasias do Holywins — e descubra a história de cada um.</p>
     </div>
+
+    <div class="santos-carousel fade-in">
+      <button class="santos-carousel__seta santos-carousel__seta--prev" id="santosPrev" aria-label="Santo anterior">‹</button>
+
+      <div class="santos-carousel__viewport">
+        <div class="santos-carousel__track" id="santosTrack">
+
+          <article class="santo-card-novo" data-santo="carlo-acutis">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/carlo-acutis.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>São Carlo Acutis</h3>
+              <p class="santo-card-novo__bio">Adolescente italiano apaixonado por informática, Carlo usou a internet para evangelizar: catalogou milagres eucarísticos do mundo inteiro em um site que ele mesmo programou. Morreu aos 15 anos oferecendo o sofrimento de uma leucemia fulminante por sua fé, e foi canonizado em 2025 como o primeiro santo da geração millennial.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> calça jeans, tênis e camiseta ou moletom — Carlo se vestia como qualquer adolescente comum. Leve um notebook ou celular na mão para completar.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="carlo-acutis">Conheça sua história</button>
+            </div>
+          </article>
+
+          <article class="santo-card-novo" data-santo="gema-galgani">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/gema-galgani.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>Santa Gema Galgani</h3>
+              <p class="santo-card-novo__bio">Jovem italiana de Lucca, ficou órfã ainda cedo e viveu uma fé intensa mesmo em meio a muito sofrimento físico. Quis ser freira, mas foi recusada por causa da saúde frágil — e mesmo assim viveu uma união profunda com Cristo. Morreu aos 25 anos e é padroeira de quem enfrenta doenças e sofrimento.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> vestido simples e escuro, cabelo preso e um terço nas mãos — o visual de uma jovem leiga do fim do século 19, com um véu leve nos ombros.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="gema-galgani">Conheça sua história</button>
+            </div>
+          </article>
+
+          <article class="santo-card-novo" data-santo="domingo-savio">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/domingo-savio.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>São Domingos Sávio</h3>
+              <p class="santo-card-novo__bio">Aos sete anos, na primeira comunhão, Domingos escreveu um propósito que guiaria toda sua vida curta: "Antes morrer do que pecar". Aluno de Dom Bosco, foi um adolescente igual a tantos outros — brincalhão, esforçado nos estudos — mas com uma seriedade rara com a fé. Morreu aos 14 anos, um dos santos não-mártires mais jovens da Igreja.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> uniforme de estudante do século 19 — calça e colete escuros, camisa branca e um lenço ou gravata simples. Um terço no bolso completa o visual.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="domingo-savio">Conheça sua história</button>
+            </div>
+          </article>
+
+          <article class="santo-card-novo" data-santo="teresinha">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/teresinha.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>Santa Teresinha do Menino Jesus</h3>
+              <p class="santo-card-novo__bio">Carmelita francesa que entrou no convento ainda adolescente, Teresinha descobriu que não precisava de grandes feitos para ser santa — bastava fazer as pequenas coisas do dia a dia com muito amor: o "Caminho da Infância Espiritual". Morreu aos 24 anos e hoje é Doutora da Igreja, uma das maiores mestras espirituais de todos os tempos.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> hábito marrom com véu branco (ou um vestido simples nesses tons) e um buquê de rosas nas mãos — seu símbolo mais conhecido.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="teresinha">Conheça sua história</button>
+            </div>
+          </article>
+
+          <article class="santo-card-novo" data-santo="padre-pio">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/padre-pio.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>São Padre Pio</h3>
+              <p class="santo-card-novo__bio">Frade capuchinho italiano, Padre Pio carregou nas próprias mãos e pés as chagas de Cristo por quase 50 anos. Passava horas confessando e rezando, e era conhecido por "ler" o coração de quem o procurava. Fundou um hospital para cuidar dos mais pobres e é um dos santos mais amados do século 20.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> hábito marrom dos frades capuchinhos, corda na cintura e um terço grande pendurado — luvas escuras completam, lembrando as mitenes que ele usava.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="padre-pio">Conheça sua história</button>
+            </div>
+          </article>
+
+          <article class="santo-card-novo" data-santo="jose-sanchez">
+            <div class="santo-card-novo__foto" style="background-image:url('assets/santos/jose-sanchez.jpg')"></div>
+            <div class="santo-card-novo__corpo">
+              <h3>São José Sánchez del Río</h3>
+              <p class="santo-card-novo__bio">Aos 14 anos, José se alistou na Guerra Cristera, no México, para defender a liberdade de viver a fé católica. Capturado, foi torturado por dias para negar a Cristo — e nunca cedeu. É um dos mártires mais jovens canonizados nos últimos tempos e símbolo de coragem para os jovens de hoje.</p>
+              <p class="santo-card-novo__fantasia">💡 <strong>Fantasia:</strong> chapéu de vaqueiro mexicano, lenço no pescoço e uma faixa cruzando o peito escrito "Viva Cristo Rey" — visual de jovem soldado cristero dos anos 1920.</p>
+              <button class="btn btn--outline santo-card-novo__btn" data-santo-modal="jose-sanchez">Conheça sua história</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <button class="santos-carousel__seta santos-carousel__seta--next" id="santosNext" aria-label="Próximo santo">›</button>
+    </div>
+
+    <div class="santos-carousel__dots" id="santosDots"></div>
   </section>
 
   <!-- ===================== COMO VAI FUNCIONAR ===================== -->
@@ -335,17 +346,29 @@
       <p class="section__eyebrow fade-in">O evento</p>
       <h2 class="section__title fade-in">Como vai funcionar</h2>
 
-      <ul class="como-lista">
-        <li class="como-item fade-in"><span>📅</span> 24 de outubro de 2026, 19h</li>
-        <li class="como-item fade-in"><span>📍</span> Paróquia São Jorge — Rua Herval, 93, Bairro Campina, São Leopoldo</li>
-        <li class="como-item fade-in"><span>🎭</span> Festa à fantasia dos santos</li>
-        <li class="como-item fade-in"><span>🎶</span> Música e DJ</li>
-        <li class="como-item fade-in"><span>👥</span> Uma noite para reunir a juventude</li>
-      </ul>
+      <div class="como-grid">
+        <div class="como-info">
+          <ul class="como-lista">
+            <li class="como-item fade-in"><span>📅</span> 24 de outubro de 2026, 19h</li>
+            <li class="como-item fade-in"><span>📍</span> Paróquia São Jorge — Rua Herval, 93, Bairro Campina, São Leopoldo</li>
+            <li class="como-item fade-in"><span>🎭</span> Festa à fantasia dos santos</li>
+            <li class="como-item fade-in"><span>🎶</span> Música e DJ</li>
+            <li class="como-item fade-in"><span>👥</span> Uma noite para reunir a juventude</li>
+          </ul>
 
-      <!-- Espaço reservado para informações futuras: horário, valor, ingressos, patrocinadores -->
-      <div class="como-extra fade-in">
-        <p>⏰ Horário: 19h &nbsp;|&nbsp; 🎟️ Ingresso: <em>em breve</em></p>
+          <div class="como-extra fade-in">
+            <span class="como-extra__horario">⏰ Horário: 19h</span>
+            <a class="como-extra__ingresso" id="btnIngressoWhatsapp" href="https://wa.me/5551991268885" target="_blank" rel="noopener">🎟️ Ingresso: fale no WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="como-mapa fade-in">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3464.126622585645!2d-51.16308352486224!3d-29.745048375075697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9519693b27bb298f%3A0x6a1a97d9e6456f04!2zUGFyw7NxdWlhIFPDo28gSm9yZ2U!5e0!3m2!1spt-BR!2sbr!4v1788739843707!5m2!1spt-BR!2sbr"
+            width="100%" height="100%" style="border:0;" allowfullscreen=""
+            loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+            title="Localização da Paróquia São Jorge no Google Maps"></iframe>
+        </div>
       </div>
     </div>
   </section>
@@ -410,9 +433,9 @@
   <div class="modal__overlay" id="modalOverlay"></div>
   <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalNome">
     <button class="modal__fechar" id="modalFechar" aria-label="Fechar">×</button>
-    <span class="modal__icone" id="modalIcone">✟</span>
+    <span class="modal__foto" id="modalFoto" aria-hidden="true"></span>
     <h3 id="modalNome">Nome do Santo</h3>
-    <p id="modalBio">Biografia do santo.</p>
+    <p class="modal__extra" id="modalExtra">Fato extra sobre o santo.</p>
     <p class="modal__frase" id="modalFrase">"Frase do santo."</p>
   </div>
 </div>
