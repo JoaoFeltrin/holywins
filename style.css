@@ -536,6 +536,7 @@ a:focus-visible, button:focus-visible {
 .section--porque { background: var(--cor-fundo); }
 .section--santos { background: var(--cor-fundo-alt2); }
 .section--como { background: var(--cor-fundo-alt); }
+.section--patrocinadores { background: var(--cor-fundo-alt2); }
 .section--compartilhe { background: var(--cor-fundo-alt2); text-align: center; }
 
 .section__eyebrow {
@@ -786,8 +787,11 @@ a:focus-visible, button:focus-visible {
   border-radius: 50px;
 }
 
-/* ===================== ESCOLHA SEU SANTO (carrossel) ===================== */
-.santos-carousel {
+/* ===================== CARROSSEL (genérico) =====================
+   Base compartilhada por qualquer carrossel do site (santos, patrocinadores,
+   etc.). O tamanho/estilo de cada CARD é definido à parte (.santo-card-novo,
+   .patro-card...); aqui só fica a "casca": trilho, setas e bolinhas. */
+.carousel-shell {
   position: relative;
   display: flex;
   align-items: center;
@@ -797,18 +801,56 @@ a:focus-visible, button:focus-visible {
   padding: 0 0.5rem;
 }
 
-.santos-carousel__viewport {
+.carousel-viewport {
   overflow: hidden;
   flex: 1;
 }
 
-.santos-carousel__track {
+.carousel-track {
   display: flex;
   gap: 1.2rem;
   will-change: transform;
   transition: transform 0.5s ease;
 }
 
+.carousel-seta {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(156, 200, 255, 0.3);
+  color: var(--cor-branco);
+  font-size: 1.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transicao), border-color var(--transicao);
+}
+.carousel-seta:hover { background: var(--cor-destaque); border-color: var(--cor-destaque); }
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.8rem;
+}
+
+.carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(156, 200, 255, 0.3);
+  transition: background var(--transicao), transform var(--transicao);
+}
+
+.carousel-dot.is-active {
+  background: var(--cor-destaque);
+  transform: scale(1.3);
+}
+
+/* ===================== ESCOLHA SEU SANTO (cards do carrossel) ===================== */
 .santo-card-novo {
   flex: 0 0 100%;
   scroll-snap-align: start;
@@ -840,55 +882,174 @@ a:focus-visible, button:focus-visible {
 .santo-card-novo__fantasia strong { color: var(--cor-branco); }
 .santo-card-novo__btn { margin-top: auto; align-self: flex-start; }
 
-.santos-carousel__seta {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(156, 200, 255, 0.3);
+/* ===================== CONCURSO DE FANTASIAS =====================
+   Compacto de propósito: fica no grid "Como vai funcionar" na mesma
+   linha do bloco de ingresso (ver .como-grid), com o MESMO estilo —
+   os dois formam um par visual equilibrado e esticam juntos. */
+.concurso-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.concurso {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.3rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(156, 200, 255, 0.14);
+  border-radius: 14px;
+}
+
+/* Mesmo tratamento de "título de bloco" do .como-extra__horario ao lado,
+   pra ficar no mesmo nível visual de "Horário: 19h". */
+.concurso__titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 1.3rem;
   color: var(--cor-branco);
-  font-size: 1.6rem;
-  line-height: 1;
+  text-shadow: 0 0 20px rgba(47, 111, 237, 0.3);
+  margin-bottom: 0.6rem;
+}
+
+.concurso__texto {
+  font-size: 0.82rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: 0.8rem;
+}
+
+.concurso__categorias {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.concurso__categorias li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--cor-branco);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed rgba(156, 200, 255, 0.15);
+}
+
+.concurso__categorias li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.concurso__categorias small {
+  font-size: 0.75rem;
+  color: var(--cor-texto-suave);
+}
+
+/* ===================== PATROCINADORES (faixa contínua, ponta a ponta) =====================
+   Pra adicionar um patrocinador: gere o PNG (fundo transparente, se possível)
+   em assets/patrocinadores/ e cadastre no objeto PATROCINADORES do script.js.
+   O JS (iniciarPatrocinadores) monta os cards e DUPLICA o conjunto inteiro,
+   e a animação abaixo anda exatamente 50% da largura da trilha — como a
+   segunda metade é idêntica à primeira, o loop fica sem emenda visível.
+   Pra mudar a velocidade, é só editar --patro-velocidade. */
+.section--patrocinadores {
+  padding: 1.8rem 0;
+  overflow: hidden; /* nunca deixa a faixa criar scroll horizontal na página */
+}
+
+
+.patro-label {
+  text-align: center;
+  color: var(--cor-texto-suave);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.patro-marquee {
+  --patro-velocidade: 26s;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.patro-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 2.5rem;
+  padding: 0 1.25rem;
+  animation: patroRolar var(--patro-velocidade) linear infinite;
+}
+
+/* Pausa ao passar o mouse, pra quem quiser clicar com calma */
+/* Sem pausa no hover de propósito — o pedido foi rolagem contínua, sem parar. */
+
+@keyframes patroRolar {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.patro-card {
+  flex: 0 0 auto;
+  width: 150px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transicao), border-color var(--transicao);
-}
-.santos-carousel__seta:hover { background: var(--cor-destaque); border-color: var(--cor-destaque); }
-
-.santos-carousel__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.8rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+  transition: background var(--transicao);
 }
 
-.santos-carousel__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgba(156, 200, 255, 0.3);
-  transition: background var(--transicao), transform var(--transicao);
+.patro-card:hover { background: rgba(255, 255, 255, 0.05); }
+
+.patro-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.santos-carousel__dot.is-active {
-  background: var(--cor-destaque);
-  transform: scale(1.3);
+.patro-card--misterio {
+  color: var(--cor-azul-claro);
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 1.7rem;
+  opacity: 0.4;
+  border: 1px dashed rgba(156, 200, 255, 0.25);
 }
 
-/* ===================== COMO VAI FUNCIONAR ===================== */
+/* ===================== COMO VAI FUNCIONAR =====================
+   Grid 2x2 nomeado (grid-template-areas): no mobile vira 1 coluna só
+   (ordem do próprio HTML — lista, ingresso, mapa, concurso). No desktop
+   (≥860px) vira duas colunas x duas linhas, com "ingresso" e "concurso"
+   na mesma linha — como estão na mesma linha, o grid estica os dois pra
+   ficarem com a MESMA altura automaticamente, sem precisar calcular nada
+   manualmente. O mesmo vale pra "lista" e "mapa" na linha de cima. */
 .como-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
-  align-items: stretch;
+  gap: 1.5rem;
   max-width: 980px;
   margin: 0 auto;
 }
 
 @media (min-width: 860px) {
-  .como-grid { grid-template-columns: 1fr 1fr; }
+  .como-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "lista   mapa"
+      "ingresso concurso";
+    column-gap: 2.5rem;
+    row-gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .como-info      { grid-area: lista; }
+  .como-mapa      { grid-area: mapa; }
+  .ingresso-col   { grid-area: ingresso; }
+  .concurso-col   { grid-area: concurso; }
 }
 
 .como-lista {
@@ -911,15 +1072,15 @@ a:focus-visible, button:focus-visible {
 .como-item span { font-size: 1.3rem; }
 
 /* Mapa incorporado (Google Maps) ao lado das informações do evento.
-   No mobile (1 coluna) usa aspect-ratio, já que não há uma coluna
-   irmã pra "esticar". No desktop (grid de 2 colunas, ver breakpoint
-   860px abaixo) ele estica e acompanha a altura real da coluna de
-   informações, em vez de ficar menor/desproporcional. */
+   Altura FIXA (não acompanha mais o tamanho da coluna de informações) —
+   isso evita que o mapa fique enorme conforme a lista de informações/preços
+   cresce, o que deixava a seção (e a página toda) comprida demais. Se um
+   dia a coluna de informações ficar bem mais baixa que o mapa, tudo bem:
+   o grid não força mais as duas alturas a baterem. */
 .como-mapa {
   position: relative;
   width: 100%;
-  min-height: 260px;
-  aspect-ratio: 4 / 3;
+  height: 300px;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid rgba(156, 200, 255, 0.18);
@@ -929,33 +1090,42 @@ a:focus-visible, button:focus-visible {
 .como-mapa iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 @media (min-width: 860px) {
-  .como-mapa { aspect-ratio: auto; height: 100%; }
+  .como-mapa { height: 420px; }
 }
 
-.como-extra {
-  margin-top: 2rem;
+/* Ingresso: título fora do bloco, mesmo wrapper/estilo do Concurso ao lado —
+   garante que os dois títulos e as duas caixas fiquem sempre alinhados. */
+.ingresso-col {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.9rem;
+  flex-direction: column;
+  height: 100%;
+  /* Compensa a navbar fixa (70px) ao chegar aqui pelo link "Quero Participar". */
+  scroll-margin-top: 90px;
 }
 
-.como-extra__horario {
+.ingresso-col__titulo {
   font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: 1.3rem;
   color: var(--cor-branco);
   text-shadow: 0 0 20px rgba(47, 111, 237, 0.3);
+  margin-bottom: 0.6rem;
 }
 
 /* Bloco de preços do ingresso, logo abaixo do horário */
 .como-ingresso {
-  margin-top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 1.3rem 1.5rem;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(156, 200, 255, 0.14);
   border-radius: 14px;
 }
+
+/* Se o grid esticar esse card (pra bater com a altura do concurso ao
+   lado), o botão gruda no rodapé em vez de deixar um vão estranho. */
+.como-ingresso__btn { margin-top: auto; }
 
 .como-ingresso__titulo {
   font-weight: 700;
@@ -1236,6 +1406,7 @@ a:focus-visible, button:focus-visible {
   .hero__scroll span::before { animation: none; }
   .hero__contador-dot { animation: none; }
   .hero__carousel-slide { transition: none; }
+  .patro-marquee__track { animation: none; }
 }
 
 /* ===================== DESKTOP: navbar horizontal ===================== */
