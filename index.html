@@ -31,11 +31,12 @@
     <a href="#topo" class="navbar__brand">HOLY<span>WINS</span></a>
 
     <nav class="navbar__nav" id="navMenu">
+      <a href="#patrocinadores" class="navbar__link">Patrocinadores</a>
       <a href="#sobre" class="navbar__link">O Evento</a>
       <a href="#porque" class="navbar__link">Por que ir</a>
       <a href="#santos" class="navbar__link">Santos</a>
       <a href="#como-vai-funcionar" class="navbar__link">Como vai ser</a>
-      <a href="#inscricao" class="navbar__link navbar__link--cta">Quero Participar</a>
+      <a href="#ingresso" class="navbar__link navbar__link--cta">Quero Participar</a>
     </nav>
 
     <button class="navbar__toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
@@ -106,7 +107,8 @@
       </div>
 
       <div class="hero__ctas">
-        <a href="#" class="btn btn--primary" id="btnInscricaoHero" target="_blank" rel="noopener">QUERO PARTICIPAR</a>
+        <a href="#" class="btn btn--ghost" id="btnVoteHero" target="_blank" rel="noopener">VOTE</a>
+        <a href="#" class="btn btn--primary" id="btnIngressoHero" target="_blank" rel="noopener">INGRESSO</a>
       </div>
 
       <!-- Contador ao vivo de confirmações (respostas do Google Forms) -->
@@ -120,6 +122,20 @@
     <a href="#sobre" class="hero__scroll" aria-label="Rolar para próxima seção">
       <span></span>
     </a>
+  </section>
+
+  <!-- ===================== PATROCINADORES =====================
+       Logo abaixo do Hero, como uma "faixa de apoiadores" de ponta a ponta
+       da tela, rolando sozinha e sem parar. Os cards de patrocinador (logo
+       real + "?" mistério) são montados via JS a partir do objeto
+       PATROCINADORES no script.js — não precisa editar este HTML pra
+       adicionar um novo patrocinador. -->
+  <section class="section section--patrocinadores" id="patrocinadores">
+    <p class="patro-label fade-in">Patrocinadores</p>
+
+    <div class="patro-marquee fade-in">
+      <div class="patro-marquee__track" id="patroTrack"></div>
+    </div>
   </section>
 
   <!-- ===================== SOBRE / O QUE É (manifesto) ===================== -->
@@ -263,11 +279,11 @@
       <p class="section__subtitle fade-in">Conheça quem vai inspirar as fantasias do Holywins — e descubra a história de cada um.</p>
     </div>
 
-    <div class="santos-carousel fade-in">
-      <button class="santos-carousel__seta santos-carousel__seta--prev" id="santosPrev" aria-label="Santo anterior">‹</button>
+    <div class="carousel-shell fade-in">
+      <button class="carousel-seta carousel-seta--prev" id="santosPrev" aria-label="Santo anterior">‹</button>
 
-      <div class="santos-carousel__viewport">
-        <div class="santos-carousel__track" id="santosTrack">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="santosTrack">
 
           <article class="santo-card-novo" data-santo="carlo-acutis">
             <div class="santo-card-novo__foto" style="background-image:url('assets/santos/carlo-acutis.jpg')"></div>
@@ -332,10 +348,10 @@
         </div>
       </div>
 
-      <button class="santos-carousel__seta santos-carousel__seta--next" id="santosNext" aria-label="Próximo santo">›</button>
+      <button class="carousel-seta carousel-seta--next" id="santosNext" aria-label="Próximo santo">›</button>
     </div>
 
-    <div class="santos-carousel__dots" id="santosDots"></div>
+    <div class="carousel-dots" id="santosDots"></div>
   </section>
 
   <!-- ===================== COMO VAI FUNCIONAR ===================== -->
@@ -344,6 +360,9 @@
       <p class="section__eyebrow fade-in">O evento</p>
       <h2 class="section__title fade-in">Como vai funcionar</h2>
 
+      <!-- Grid 2x2 explícito (ver .como-grid no CSS): no desktop, "lista" e "mapa"
+           ficam na linha de cima, "ingresso" e "concurso" na linha de baixo — os
+           dois pares esticam pra ter sempre a MESMA altura, ficando alinhados. -->
       <div class="como-grid">
         <div class="como-info">
           <ul class="como-lista">
@@ -353,13 +372,12 @@
             <li class="como-item fade-in"><span>🎶</span> Música e DJ</li>
             <li class="como-item fade-in"><span>👥</span> Uma noite para reunir a juventude</li>
           </ul>
+        </div>
 
-          <div class="como-extra fade-in">
-            <span class="como-extra__horario">⏰ Horário: 19h</span>
-          </div>
-
-          <!-- Preços do ingresso: pra alterar os valores, edite só os números abaixo -->
-          <div class="como-ingresso fade-in">
+        <!-- Ingresso: título fora do bloco, alinhado com o título do Concurso -->
+        <div class="ingresso-col fade-in" id="ingresso">
+          <p class="ingresso-col__titulo">⏰ Horário: 19h</p>
+          <div class="como-ingresso">
             <p class="como-ingresso__titulo">🎟️ Ingresso</p>
             <ul class="como-ingresso__precos">
               <li><span>Antecipado</span><strong>R$ 15</strong></li>
@@ -377,6 +395,20 @@
             width="100%" height="100%" style="border:0;" allowfullscreen=""
             loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
             title="Localização da Paróquia São Jorge no Google Maps"></iframe>
+        </div>
+
+        <!-- Concurso de fantasias: título fora do bloco, igual "Horário: 19h" -->
+        <div class="concurso-col fade-in">
+          <p class="concurso__titulo">🏆 Concurso de Fantasias</p>
+          <div class="concurso">
+            <p class="concurso__texto">O objetivo não é gastar comprando fantasia! Capriche utilizando peças que já tem em casa!<br>Teremos premiação para quem mais se destacar em cada categoria!</p>
+            <ul class="concurso__categorias">
+              <li><span>Infantil</span><small>até 9 anos</small></li>
+              <li><span>Juvenil</span><small>até 16 anos</small></li>
+              <li><span>Adulto</span><small>17 anos ou mais</small></li>
+              <li><span>Família</span><small>fantasia em grupo</small></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
