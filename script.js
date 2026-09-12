@@ -36,6 +36,22 @@ const CARROSSEL_INTERVALO_MS = 7000;
 // esconder o contador ao vivo.
 const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlpjqdeghce3QBVpE9qpaTMUnAY8tSkrdN-e4zqFcbP1ZgTTltGu7SA3WQ4HvRDFYK8WVSWCtOaZie/pub?output=csv";
 
+// Patrocinadores confirmados. Pra adicionar um novo: salve o logo (de
+// preferência PNG com fundo transparente) em assets/patrocinadores/ e
+// acrescente um objeto aqui embaixo — o card e o link pro Instagram são
+// gerados automaticamente, sem precisar mexer no HTML.
+const PATROCINADORES = [
+  {
+    nome: "Ester Ótica",
+    logo: "assets/patrocinadores/ester-otica.png",
+    instagram: "https://www.instagram.com/ester.oticasl?stkn=MXc4NzVpczJqNTIwZw%3D%3D&utm_source=qr",
+  },
+];
+
+// Quantos cards "mistério" (?) mostrar no carrossel além dos patrocinadores
+// já confirmados acima. Reduza esse número conforme forem fechando novos.
+const PATROCINADORES_MISTERIO_QTD = 5;
+
 /* ========================================================= */
 
 
@@ -47,13 +63,15 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarMenuMobile();
   iniciarFadeIn();
   iniciarSantos();
+  iniciarPatrocinadores();
+  iniciarScrollPatrocinadores();
   iniciarCompartilhamento();
 });
 
 /* ===================== LINKS CONFIGURÁVEIS ===================== */
 function aplicarLinksConfiguraveis() {
   const linksInscricao = [
-    document.getElementById("btnInscricaoHero"),
+    document.getElementById("btnVoteHero"),
     document.getElementById("btnInscricaoFinal"),
   ];
   linksInscricao.forEach((el) => {
@@ -68,8 +86,13 @@ function aplicarLinksConfiguraveis() {
     if (el) el.setAttribute("href", INSTAGRAM_URL);
   });
 
-  const btnIngressoWhatsapp = document.getElementById("btnIngressoWhatsapp");
-  if (btnIngressoWhatsapp) btnIngressoWhatsapp.setAttribute("href", WHATSAPP_URL);
+  const linksWhatsappIngresso = [
+    document.getElementById("btnIngressoHero"),
+    document.getElementById("btnIngressoWhatsapp"),
+  ];
+  linksWhatsappIngresso.forEach((el) => {
+    if (el) el.setAttribute("href", WHATSAPP_URL);
+  });
 }
 
 /* ===================== CONTADOR REGRESSIVO ===================== */
@@ -107,6 +130,29 @@ function iniciarContador() {
 
   atualizar();
   const intervalo = setInterval(atualizar, 1000);
+}
+
+/* ===================== SCROLL CENTRALIZADO (Patrocinadores) =====================
+   O clique padrão em "#patrocinadores" alinha o TOPO da seção com o topo
+   da viewport (embaixo da navbar). Como a faixa de patrocinadores é curta,
+   fica mais bonito centralizar ela na tela em vez de colar no topo — por
+   isso interceptamos o clique e calculamos a rolagem manualmente. */
+function iniciarScrollPatrocinadores() {
+  const link = document.querySelector('a[href="#patrocinadores"]');
+  const secao = document.getElementById("patrocinadores");
+  if (!link || !secao) return;
+
+  link.addEventListener("click", (evento) => {
+    evento.preventDefault();
+
+    const alturaSecao = secao.offsetHeight;
+    const topoSecao = secao.getBoundingClientRect().top + window.scrollY;
+    const destino = topoSecao - (window.innerHeight - alturaSecao) / 2;
+
+    window.scrollTo({ top: Math.max(destino, 0), behavior: "smooth" });
+
+    if (history.pushState) history.pushState(null, "", "#patrocinadores");
+  });
 }
 
 /* ===================== CARROSSEL DO HERO ===================== */
@@ -318,25 +364,20 @@ function iniciarModalSantos() {
   });
 }
 
-/* ---- Carrossel (múltiplos cards visíveis, autoplay + setas + bolinhas) ---- */
-function iniciarCarrosselSantos() {
-  const track = document.getElementById("santosTrack");
+/* ---- Carrossel genérico (múltiplos cards visíveis, autoplay + setas + bolinhas) ----
+   Reaproveitado tanto pelo carrossel de santos quanto pelo de patrocinadores.
+   Recebe os ids dos elementos e uma função "cardsPorVez" (quantos cards
+   ficam visíveis de cada vez, geralmente batendo com os breakpoints do CSS). */
+function criarCarrossel({ trackId, prevId, nextId, dotsId, intervalMs = 6000, cardsPorVez }) {
+  const track = document.getElementById(trackId);
   const viewport = track ? track.parentElement : null;
-  const btnPrev = document.getElementById("santosPrev");
-  const btnNext = document.getElementById("santosNext");
-  const dotsContainer = document.getElementById("santosDots");
+  const btnPrev = document.getElementById(prevId);
+  const btnNext = document.getElementById(nextId);
+  const dotsContainer = document.getElementById(dotsId);
   if (!track || !viewport) return;
 
   const cards = Array.from(track.children);
   if (!cards.length) return;
-
-  // Quantos cards ficam visíveis por vez, de acordo com o breakpoint do CSS
-  // (1 no mobile, 2 no tablet ≥640px, 3 no desktop ≥960px)
-  function cardsPorVez() {
-    if (window.innerWidth >= 960) return 3;
-    if (window.innerWidth >= 640) return 2;
-    return 1;
-  }
 
   let indice = 0;
   let autoplay;
@@ -359,8 +400,8 @@ function iniciarCarrosselSantos() {
     dotsContainer.innerHTML = "";
     for (let i = 0; i < totalPaginas(); i++) {
       const dot = document.createElement("button");
-      dot.className = "santos-carousel__dot" + (i === indice ? " is-active" : "");
-      dot.setAttribute("aria-label", `Ir para o card ${i + 1}`);
+      dot.className = "carousel-dot" + (i === indice ? " is-active" : "");
+      dot.setAttribute("aria-label", `Ir para o grupo ${i + 1}`);
       dot.addEventListener("click", () => {
         irPara(i);
         reiniciarAutoplay();
@@ -371,7 +412,7 @@ function iniciarCarrosselSantos() {
 
   function reiniciarAutoplay() {
     clearInterval(autoplay);
-    autoplay = setInterval(() => irPara(indice + 1), 6000);
+    autoplay = setInterval(() => irPara(indice + 1), intervalMs);
   }
 
   if (btnPrev) btnPrev.addEventListener("click", () => { irPara(indice - 1); reiniciarAutoplay(); });
@@ -381,6 +422,67 @@ function iniciarCarrosselSantos() {
 
   irPara(0);
   reiniciarAutoplay();
+}
+
+function iniciarCarrosselSantos() {
+  criarCarrossel({
+    trackId: "santosTrack",
+    prevId: "santosPrev",
+    nextId: "santosNext",
+    dotsId: "santosDots",
+    intervalMs: 6000,
+    // 1 card no mobile, 2 no tablet ≥640px, 3 no desktop ≥960px (bate com o CSS)
+    cardsPorVez: () => (window.innerWidth >= 960 ? 3 : window.innerWidth >= 640 ? 2 : 1),
+  });
+}
+
+/* ===================== PATROCINADORES (faixa contínua) =====================
+   Monta os cards (logo real + "?" mistério) a partir de PATROCINADORES e
+   PATROCINADORES_MISTERIO_QTD (configurados no topo do arquivo) e DUPLICA
+   o conjunto inteiro dentro da trilha — é esse conjunto duplicado que faz
+   a animação em CSS (.patro-marquee__track) rolar sem parar e sem emenda
+   visível (ela anda só 50% da largura total, ou seja, exatamente um
+   conjunto, e reinicia bem na hora que o segundo conjunto idêntico chega
+   na mesma posição do primeiro). */
+function iniciarPatrocinadores() {
+  const track = document.getElementById("patroTrack");
+  if (!track) return;
+
+  function criarCardLogo(patrocinador) {
+    const card = document.createElement("a");
+    card.className = "patro-card";
+    card.href = patrocinador.instagram;
+    card.target = "_blank";
+    card.rel = "noopener";
+    card.setAttribute("aria-label", `${patrocinador.nome} no Instagram`);
+
+    const img = document.createElement("img");
+    img.src = patrocinador.logo;
+    img.alt = patrocinador.nome;
+    img.loading = "lazy";
+
+    card.appendChild(img);
+    return card;
+  }
+
+  function criarCardMisterio() {
+    const card = document.createElement("div");
+    card.className = "patro-card patro-card--misterio";
+    card.setAttribute("aria-hidden", "true");
+    card.innerHTML = "<span>?</span>";
+    return card;
+  }
+
+  const conjunto = [
+    ...PATROCINADORES.map(criarCardLogo),
+    ...Array.from({ length: PATROCINADORES_MISTERIO_QTD }, criarCardMisterio),
+  ];
+
+  if (!conjunto.length) return;
+
+  // 1ª cópia + 2ª cópia (clone) lado a lado dentro da trilha
+  conjunto.forEach((card) => track.appendChild(card));
+  conjunto.forEach((card) => track.appendChild(card.cloneNode(true)));
 }
 
 /* ===================== COMPARTILHAMENTO ===================== */
