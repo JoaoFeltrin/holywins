@@ -46,11 +46,21 @@ const PATROCINADORES = [
     logo: "assets/patrocinadores/ester-otica.png",
     instagram: "https://www.instagram.com/ester.oticasl?stkn=MXc4NzVpczJqNTIwZw%3D%3D&utm_source=qr",
   },
+  {
+    nome: "Agafarma Campina",
+    logo: "assets/patrocinadores/agafarma.jpeg",
+    instagram: "https://www.instagram.com/agafarma_campina01?stkn=dHh0NThqZWpoM2d6&utm_source=qr",
+  },
+  {
+    nome: "Agrofer",
+    logo: "assets/patrocinadores/agrofer.jpeg",
+    instagram: "https://www.instagram.com/agrofer_saoleo?stkn=ZjJqZWQ0cG5wcHQ0",
+  },
 ];
 
 // Quantos cards "mistério" (?) mostrar no carrossel além dos patrocinadores
 // já confirmados acima. Reduza esse número conforme forem fechando novos.
-const PATROCINADORES_MISTERIO_QTD = 5;
+const PATROCINADORES_MISTERIO_QTD = 3;
 
 /* ========================================================= */
 
