@@ -61,6 +61,16 @@ const PATROCINADORES = [
     logo: "assets/patrocinadores/mega_tintas.jpeg",
     instagram: "https://www.instagram.com/megatintasrs?stkn=dHF3NTZhMnFvZHdz",
   },
+  {
+    nome: "Cofer Oxi",
+    logo: "assets/patrocinadores/CoferOxi.png",
+    instagram: "https://www.instagram.com/cofer_oxi?stkn=djA5ZGV2cjkyNXk0",
+  },
+  {
+    nome: "Truck Sinos",
+    logo: "assets/patrocinadores/Truck_Sinos.png",
+    instagram: "https://www.instagram.com/trucksinos?stkn=bGhpbXI1aHduaTZ1",
+  },
 ];
 
 // Quantos cards "mistério" (?) mostrar no carrossel além dos patrocinadores
